@@ -9,6 +9,14 @@ ServerEvents.recipes(allthemods => {
         allthemods.shaped(itemID || recipeID, schema, ingredients).id(recipeID);
     }
 
+    // removes all Mystical Agriculture furnace recipes
+    allthemods.remove({ id: 'mysticalagriculture:inferium_furnace'});
+    allthemods.remove({ id: 'mysticalagriculture:prudentium_furnace'});
+    allthemods.remove({ id: 'mysticalagriculture:tertium_furnace'});
+    allthemods.remove({ id: 'mysticalagriculture:imperium_furnace'});
+    allthemods.remove({ id: 'mysticalagriculture:supremium_furnace'});
+    allthemods.remove({ id: 'mysticalagriculture:awakened_supremium_furnace'});
+
     //'simplemagnets:basic_demagnetization_coil', 'simplemagnets:advanced_demagnetization_coil','simplemagnets:basicmagnet','simplemagnets:advancedmagnet',
     allthemods.shapeless('simplemagnets:basic_demagnetization_coil', ['simplemagnets:basicmagnet', 'gtceu:lv_machine_hull']).id('gregification:basic_demagnetization_coil');
 
@@ -25,8 +33,6 @@ ServerEvents.recipes(allthemods => {
         L: "#forge:gems/lapis",
         C: "#gtceu:circuits/lv"
     }).id('gregification:basicmagnet');
-
-
 
     allthemods.shaped('simplemagnets:advancedmagnet', [
         'T L',
@@ -432,35 +438,35 @@ ServerEvents.recipes(allthemods => {
 
 
     const ironFurnaces = [
-        { material: 'copper', prefix: 'lv', eu: LV, fluid: '#forge:polyethylene', coil: 'gtceu:cupronickel_coil_block' },
-        { material: 'iron', prefix: 'lv', eu: LV, fluid: '#forge:polyethylene', coil: 'gtceu:cupronickel_coil_block' },
-        { material: 'silver', prefix: 'mv', eu: MV, fluid: '#forge:polyethylene', coil: 'gtceu:kanthal_coil_block' },
-        { material: 'gold', prefix: 'mv', eu: MV, fluid: '#forge:polyethylene', coil: 'gtceu:kanthal_coil_block' },
-        { material: 'diamond', prefix: 'hv', eu: HV, fluid: '#forge:polytetrafluoroethylene', coil: 'gtceu:nichrome_coil_block' },
-        { material: 'emerald', prefix: 'hv', eu: HV, fluid: '#forge:polytetrafluoroethylene', coil: 'gtceu:nichrome_coil_block' },
-        { material: 'crystal', prefix: 'ev', eu: EV, fluid: '#forge:polytetrafluoroethylene', coil: 'gtceu:rtm_alloy_coil_block' },
-        { material: 'obsidian', prefix: 'ev', eu: EV, fluid: '#forge:polytetrafluoroethylene', coil: 'gtceu:rtm_alloy_coil_block' },
-        { material: 'netherite', prefix: 'iv', eu: IV, fluid: '#forge:polybenzimidazole', coil: 'gtceu:hssg_coil_block' },
+        { material: 'copper', prefix: 'ulv', eu: LV, fluid: '#forge:tin', coil: 'gtceu:cupronickel_coil_block' },
+        { material: 'iron', prefix: 'ulv', eu: LV, fluid: '#forge:tin', coil: 'gtceu:cupronickel_coil_block' },
+        { material: 'silver', prefix: 'lv', eu: LV, fluid: '#forge:tin_alloy', coil: 'gtceu:cupronickel_coil_block' },
+        { material: 'gold', prefix: 'lv', eu: LV, fluid: '#forge:tin_alloy', coil: 'gtceu:kanthal_coil_block' },
+        { material: 'diamond', prefix: 'mv', eu: MV, fluid: '#forge:soldering_alloy', coil: 'gtceu:kanthal_coil_block' },
+        { material: 'emerald', prefix: 'mv', eu: MV, fluid: '#forge:soldering_alloy', coil: 'gtceu:kanthal_coil_block' },
+        { material: 'crystal', prefix: 'mv', eu: MV, fluid: '#forge:soldering_alloy', coil: 'gtceu:kanthal_coil_block' },
+        { material: 'obsidian', prefix: 'hv', eu: MV, fluid: '#forge:polyethylene', coil: 'gtceu:kanthal_coil_block' },
+        { material: 'netherite', prefix: 'hv', eu: HV, fluid: '#forge:polyethylene', coil: 'gtceu:nichrome_coil_block' },
         { material: 'allthemodium', prefix: 'iv', eu: IV, fluid: '#forge:polybenzimidazole', coil: 'gtceu:hssg_coil_block' },
         { material: 'vibranium', prefix: 'luv', eu: LuV, fluid: '#forge:polybenzimidazole', coil: 'gtceu:naquadah_coil_block' },
         { material: 'unobtainium', prefix: 'zpm', eu: ZPM, fluid: '#forge:polybenzimidazole', coil: 'gtceu:trinium_coil_block' }
     ];
 
     ironFurnaces.forEach((furnace, index) => {
-        let tier = index > 0 ? `ironfurnaces:${ironFurnaces[index - 1].material}_furnace` : 'minecraft:furnace';
-        let plate = furnace.material == 'crystal' ? '#forge:plates/nether_star' : `#forge:plates/${furnace.material}`;
+        let tier = index > 0 ? `ironfurnaces:${ironFurnaces[index - 1].material}_furnace` : 'minecraft:blast_furnace';
+        let plate = furnace.material == 'crystal' ? '#forge:plates/aluminium' : `#forge:plates/${furnace.material}`;
         allthemods.recipes.gtceu.assembler(`gregification:${furnace.material}_furnace`)
             .itemInputs(`gtceu:${furnace.prefix}_machine_hull`, tier, `2x #gtceu:circuits/${furnace.prefix}`, `6x ${plate}`, furnace.coil)
             .inputFluids(`${furnace.fluid} 576`)
             .itemOutputs(`ironfurnaces:${furnace.material}_furnace`)
-            .duration(600)
+            .duration(200)
             .EUt(furnace.eu);
 
         allthemods.recipes.gtceu.assembler(`gregification:${furnace.material}_upgrade`)
             .itemInputs(`gtceu:${furnace.prefix}_machine_hull`, `2x #gtceu:circuits/${furnace.prefix}`, `6x ${plate}`, furnace.coil)
             .inputFluids(`${furnace.fluid} 576`)
             .itemOutputs(`ironfurnaces:upgrade_${furnace.material}`)
-            .duration(600)
+            .duration(200)
             .EUt(furnace.eu);
     });
 
@@ -472,11 +478,11 @@ ServerEvents.recipes(allthemods => {
         .EUt(HV);
 
     allthemods.recipes.gtceu.assembler('gregification:augment_factory')
-        .itemInputs('8x #gtceu:circuits/iv', '8x #forge:plates/tungsten_carbide', '16x #gtceu:wires/quadruple/platinum')
-        .inputFluids('#forge:tungsten_steel 576')
+        .itemInputs('4x #gtceu:circuits/mv', '4x #forge:plates/vanadium_steel', '8x #gtceu:wires/quadruple/electrum')
+        .inputFluids('#forge:steel 576')
         .itemOutputs('ironfurnaces:augment_factory')
         .duration(400)
-        .EUt(IV);
+        .EUt(MV);
 
     allthemods.recipes.gtceu.assembler('gregification:augment_speed')
         .itemInputs('8x #gtceu:circuits/hv', '8x #forge:plates/energetic_alloy', '16x #gtceu:wires/quadruple/cadmium_copper')

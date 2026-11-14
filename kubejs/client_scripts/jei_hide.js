@@ -46,6 +46,15 @@ JEIEvents.hideItems(allthemods => {
     allthemods.hide('mekanism:dimensional_stabilizer')
     allthemods.hide('ae2:spatial_anchor')
   }
+  
+  allthemods.hide([
+    'mysticalagriculture:inferium_furnace',
+    'mysticalagriculture:prudentium_furnace',
+    'mysticalagriculture:tertium_furnace',
+    'mysticalagriculture:imperium_furnace',
+    'mysticalagriculture:supremium_furnace',
+    'mysticalagriculture:awakended_supremium_furnace'
+  ])
 })
 
 // This File has been authored by AllTheMods Staff, or a Community contributor for use in AllTheMods - AllTheMods 9.
